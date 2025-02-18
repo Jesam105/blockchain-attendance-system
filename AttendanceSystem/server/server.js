@@ -38,36 +38,42 @@ app.post("/mark-attendance", async (req, res) => { // Define a POST route for ma
     }
 });
 
-app.get("/mine", (req, res) => { // Define a GET route for mining a new block
+app.get("/mine", (req, res) => {
     try {
-        const lastBlock = blockchain.getLastBlock(); // Get the last block from the blockchain
-        const previousBlockHash = lastBlock.hash; // Get the hash of the last block
-        const currentBlockData = blockchain.pendingTransactions; // Get the pending transactions
-        const nonce = blockchain.proofOfWork(previousBlockHash, currentBlockData); // Find the nonce for the new block
-        const blockHash = blockchain.hashBlock(previousBlockHash, currentBlockData, nonce); // Calculate the hash for the new block
-        const newBlock = blockchain.createNewBlock(nonce, previousBlockHash, blockHash); // Create a new block with the calculated values
+        const lastBlock = blockchain.getLastBlock();
+        const previousBlockHash = lastBlock.hash;
+        const currentBlockData = blockchain.pendingTransactions;
+        const nonce = blockchain.proofOfWork(previousBlockHash, currentBlockData);
+        const blockHash = blockchain.hashBlock(previousBlockHash, currentBlockData, nonce);
+        const newBlock = blockchain.createNewBlock(nonce, previousBlockHash, blockHash);
 
-        res.json({ message: "New block mined!", newBlock }); // Return a success response with the new block
+        // Clear pending transactions after they have been mined
+        blockchain.pendingTransactions = [];
+
+        res.json({ message: "New block mined!", newBlock });
     } catch (err) {
-        console.error("Error mining block:", err); // Log error message if mining fails
-        res.status(500).json({ error: "Failed to mine block" }); // Return a 500 Internal Server Error response
+        console.error("Error mining block:", err);
+        res.status(500).json({ error: "Failed to mine block" });
     }
 });
 
-app.get("/attendance-records", async (req, res) => { // Define a GET route for retrieving attendance records
+
+app.get("/attendance-records", async (req, res) => {
     try {
-        const blockchainRecords = blockchain.getAllTransactions(); // Get all transactions from the blockchain
-        const dbRecords = await Attendance.find(); // Fetch all attendance records from MongoDB
+        const blockchainRecords = blockchain.getAllTransactions();
+        const dbRecords = await Attendance.find();
 
-        console.log("Blockchain Records:", blockchainRecords); // Log blockchain records
-        console.log("Database Records:", dbRecords); // Log database records
+        // Remove duplicates based on studentId
+        const allRecords = [...dbRecords, ...blockchainRecords];
+        const uniqueRecords = Array.from(new Map(allRecords.map(item => [item.studentId, item])).values());
 
-        res.json({ records: [...blockchainRecords, ...dbRecords] }); // Return a success response with combined records
+        res.json({ records: uniqueRecords });
     } catch (err) {
-        console.error("Error retrieving records:", err); // Log error message if retrieval fails
-        res.status(500).json({ error: "Failed to retrieve attendance records" }); // Return a 500 Internal Server Error response
+        console.error("Error retrieving records:", err);
+        res.status(500).json({ error: "Failed to retrieve attendance records" });
     }
 });
+
 
 app.listen(port, () => { // Start the server and listen on the defined port
     console.log(`Server running at http://localhost:${port}`); // Log a message indicating the server is running
