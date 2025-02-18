@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Set the viewport to make the website responsive -->
+    <title>Blockchain Attendance System</title> <!-- Set the title of the document -->
+    <script defer src="script.js"></script> <!-- Include the script.js file and defer its execution until the HTML is fully parsed -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif; /* Set the font family for the body */
+            background: linear-gradient(to right, #2b5876, #4e4376); /* Set a gradient background */
+            color: white; /* Set the text color to white */
+            text-align: center; /* Center-align the text */
+            padding: 20px; /* Add padding around the body */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Add margin below the heading */
+            font-size: 2rem; /* Set the font size */
+            text-transform: uppercase; /* Transform the text to uppercase */
+        }
+
+        /* Form Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.1); /* Set a semi-transparent background */
+            padding: 50px; /* Add padding inside the container */
+            border-radius: 10px; /* Round the corners of the container */
+            max-width: 400px; /* Set the maximum width of the container */
+            margin: auto; /* Center the container horizontally */
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2); /* Add a box shadow */
+        }
+
+        label {
+            font-size: 1rem; /* Set the font size */
+            font-weight: bold; /* Make the text bold */
+            display: block; /* Display the label as a block element */
+            margin-top: 10px; /* Add margin above the label */
+        }
+
+        input {
+            width: 100%; /* Set the width to 100% of the container */
+            padding: 10px; /* Add padding inside the input */
+            margin-top: 5px; /* Add margin above the input */
+            border: none; /* Remove the border */
+            border-radius: 5px; /* Round the corners of the input */
+            font-size: 1rem; /* Set the font size */
+            background: rgba(255, 255, 255, 0.2); /* Set a semi-transparent background */
+            color: white; /* Set the text color to white */
+            outline: none; /* Remove the outline */
+        }
+
+        input::placeholder {
+            color: #ddd; /* Set the placeholder text color */
+        }
+
+        /* Button Styles */
+        .btn {
+            background: #ff7e5f; /* Set the background color */
+            color: white; /* Set the text color to white */
+            border: none; /* Remove the border */
+            padding: 10px 15px; /* Add padding inside the button */
+            font-size: 1rem; /* Set the font size */
+            border-radius: 5px; /* Round the corners of the button */
+            cursor: pointer; /* Change the cursor to a pointer */
+            margin: 10px 5px; /* Add margin around the button */
+            transition: all 0.3s ease-in-out; /* Add a transition effect */
+        }
+
+        .btn:hover {
+            background: #feb47b; /* Change the background color on hover */
+            transform: scale(1.05); /* Scale the button slightly on hover */
+        }
+
+        /* Attendance Records */
+        #records {
+            background: rgba(0, 0, 0, 0.6); /* Set a semi-transparent background */
+            padding: 10px; /* Add padding inside the records element */
+            border-radius: 5px; /* Round the corners of the records element */
+            margin-top: 20px; /* Add margin above the records element */
+            text-align: left; /* Align the text to the left */
+            max-width: 500px; /* Set the maximum width of the records element */
+            margin: auto; /* Center the records element horizontally */
+            overflow-x: auto; /* Add horizontal scrolling if needed */
+            white-space: pre-wrap; /* Preserve whitespace and wrap the text */
+        }
+    </style>
+</head>
+<body>
+    <h1>Blockchain Attendance System</h1> <!-- Main heading of the page -->
+    
+    <div class="container"> <!-- Container for the form elements -->
+        <label for="studentId">Student ID:</label> <!-- Label for the student ID input -->
+        <input type="text" id="studentId" placeholder="Enter Student ID"> <!-- Input field for the student ID -->
+
+        <label for="name">Name:</label> <!-- Label for the name input -->
+        <input type="text" id="name" placeholder="Enter Your Name"> <!-- Input field for the name -->
+
+        <button class="btn" onclick="markAttendance()">Mark Attendance</button> <!-- Button to mark attendance -->
+        <button class="btn" onclick="mineBlock()">Mine Block</button> <!-- Button to mine a block -->
+        <button class="btn" onclick="viewAttendance()">View Records</button> <!-- Button to view attendance records -->
+    </div>
+
+    <h2>Attendance Records</h2> <!-- Subheading for the attendance records section -->
+    <pre id="records"></pre> <!-- Element to display the attendance records -->
+</body>
+</html>
